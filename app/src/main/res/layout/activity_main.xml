@@ -32,6 +32,12 @@
             android:text="Search"
             tools:text="Search" />
 
+        <Button
+            android:id="@+id/searchAndDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search" />
+
         <ListView
             android:id="@+id/lv_view"
             android:layout_width="match_parent"
