@@ -51,41 +51,4 @@ public class CitySearching {
 
         MySingleton.getInstance(context).addToRequestQueue(request);
     }
-
-
-    public void getCity(String cityName, VolleyResponseListener volleyResponseListener) {
-        List<Weather> weatherList = new ArrayList<>();
-        String url = String.format("https://geo.api.gouv.fr/communes?nom=%s&fields=nom,codesPostaux,centre&format=json&geometry=centre", cityName);
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject responseObj = response.getJSONObject(i);
-
-                        String name = responseObj.getString("nom");
-
-                        JSONArray codeArray = responseObj.getJSONArray("codesPostaux");
-                        int code = codeArray.getInt(0);
-
-                        JSONObject centre = responseObj.getJSONObject("centre");
-                        JSONArray coord = centre.getJSONArray("coordinates");
-                        double lat = coord.getDouble(0);
-                        double lon = coord.getDouble(1);
-
-                        City city = new City(name, code, lat, lon);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Error" + error, Toast.LENGTH_SHORT).show();
-                volleyResponseListener.onError("Something went wrong");
-            }
-        });
-    }
 }
