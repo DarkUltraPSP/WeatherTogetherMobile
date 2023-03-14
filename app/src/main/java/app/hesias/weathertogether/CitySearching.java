@@ -37,7 +37,6 @@ public class CitySearching {
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
-
             public void onResponse(JSONArray response) {
                 try {
                     JSONObject cityInfo = response.getJSONObject(0);

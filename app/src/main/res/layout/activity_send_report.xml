@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity">
+    tools:context=".Activities.SendReport">
 
     <LinearLayout
         android:id="@+id/city"
@@ -16,9 +16,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
+        <EditText
+            android:id="@+id/et_dataInput"
             android:layout_width="match_parent"
-            android:layout_height="405dp" />
+            android:layout_height="69dp"
+            android:ems="10"
+            android:hint="City"
+            android:inputType="textPersonName"
+            android:textAlignment="textStart" />
+
+        <Button
+            android:id="@+id/searchBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            tools:text="Search" />
+
+        <ListView
+            android:id="@+id/lv_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
