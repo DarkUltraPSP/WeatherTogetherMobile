@@ -21,6 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import app.hesias.weathertogether.DAO.WeatherDAO;
+
 public class MainActivity extends AppCompatActivity {
     Button search, searchAndDisplay;
     EditText city;
@@ -57,15 +59,16 @@ public class MainActivity extends AppCompatActivity {
         searchAndDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CitySearching citySearching = new CitySearching(MainActivity.this);
-                citySearching.getCity(city.getText().toString(), new VolleyResponseListener() {
+                WeatherDAO weatherDAO = new WeatherDAO(MainActivity.this);
 
+                weatherDAO.getAllWeather(new VolleyResponseListener() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse (String response) {
+                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onError(String message) {
+                    public void onError (String message) {
 
                     }
                 });
