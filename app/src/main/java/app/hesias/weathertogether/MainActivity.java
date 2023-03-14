@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 CitySearching citySearching = new CitySearching(MainActivity.this);
-                citySearching.getCityCode(city.getText().toString(), new VolleyResponseListener() {
+                citySearching.getCityCode(city.getText().toString(), new CitySearching.VolleyResponseListener() {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
@@ -60,18 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 WeatherDAO weatherDAO = new WeatherDAO(MainActivity.this);
-
-                weatherDAO.getAllWeather(new VolleyResponseListener() {
-                    @Override
-                    public void onResponse (String response) {
-                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError (String message) {
-
-                    }
-                });
+                weatherDAO.getAllWeather();
             }
         });
     }

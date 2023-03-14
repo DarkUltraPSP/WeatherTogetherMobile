@@ -26,6 +26,12 @@ public class CitySearching {
         this.context = context;
     }
 
+    public interface VolleyResponseListener {
+        void onResponse(String response);
+        void onError(String message);
+    }
+
+
     public void getCityCode(String cityName, VolleyResponseListener volleyResponseListener) {
         String url = String.format("https://geo.api.gouv.fr/communes?nom=%s&fields=nom,codesPostaux,centre&format=json&geometry=centre", cityName);
 
