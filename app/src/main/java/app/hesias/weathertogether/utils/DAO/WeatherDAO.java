@@ -1,4 +1,4 @@
-package app.hesias.weathertogether.DAO;
+package app.hesias.weathertogether.utils.DAO;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.hesias.weathertogether.Model.Weather;
-import app.hesias.weathertogether.MySingleton;
-import app.hesias.weathertogether.VolleyResponseCallback;
+import app.hesias.weathertogether.utils.MySingleton;
+import app.hesias.weathertogether.utils.VolleyResponseCallback;
 
 public class WeatherDAO {
 

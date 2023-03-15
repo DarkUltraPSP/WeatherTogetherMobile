@@ -1,4 +1,4 @@
-package app.hesias.weathertogether;
+package app.hesias.weathertogether.utils;
 
 import com.android.volley.VolleyError;
 
