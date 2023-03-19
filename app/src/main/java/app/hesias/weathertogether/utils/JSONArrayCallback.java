@@ -4,7 +4,7 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONArray;
 
-public interface VolleyResponseCallback {
+public interface JSONArrayCallback {
     void onSuccess(JSONArray response);
-    void onError(VolleyError error);
+    void onError(String error);
 }

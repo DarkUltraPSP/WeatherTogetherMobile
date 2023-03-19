@@ -13,64 +13,128 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import app.hesias.weathertogether.utils.DAO.WeatherDAO;
+import app.hesias.weathertogether.DAO.ReportDAO;
+import app.hesias.weathertogether.DAO.WeatherDAO;
+import app.hesias.weathertogether.Model.Report;
+import app.hesias.weathertogether.Model.Utilisateur;
 import app.hesias.weathertogether.Model.Weather;
 import app.hesias.weathertogether.R;
-import app.hesias.weathertogether.utils.MyNavigationService;
-import app.hesias.weathertogether.utils.VolleyResponseCallback;
+import app.hesias.weathertogether.utils.JSONArrayCallback;
+import app.hesias.weathertogether.utils.JSONOCallback;
 
 
 public class SendReport extends AppCompatActivity {
-    Button search;
-    EditText city;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    Button sendBtn;
+    EditText temperature;
     ListView cityList;
+    Spinner weather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_report);
 
-        MyNavigationService location = new MyNavigationService();
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, MyNavigationService.MY_PERMISSIONS_REQUEST_LOCATION);
-        }
-
-        search = findViewById(R.id.searchBtn);
-        city = findViewById(R.id.et_dataInput);
+        sendBtn = findViewById(R.id.sendBtn);
+        temperature = findViewById(R.id.et_dataInput);
         cityList = findViewById(R.id.lv_view);
+        weather = findViewById(R.id.sp_weather);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        search.setOnClickListener(new View.OnClickListener() {
+        fill_spinner();
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Location currentLocation = location.getLocation(SendReport.this);
-                Toast.makeText(SendReport.this, currentLocation.toString(), Toast.LENGTH_SHORT).show();
+                getCurLocation(new JSONOCallback() {
+                    final ReportDAO reportDAO = new ReportDAO(SendReport.this);
+                    @Override
+                    public void onSuccess(JSONObject jsono) {
+                        try {
+                            Report report = new Report(
+                                    LocalDateTime.now(),
+                                    jsono.getDouble("lat"),
+                                    jsono.getDouble("lon"),
+                                    Double.parseDouble(temperature.getText().toString()),
+                                    (Weather) weather.getSelectedItem(),
+                                    new Utilisateur(1, "Nero", 0102030405)
+                            );
+                            reportDAO.postReport(report, new JSONArrayCallback() {
+                                @Override
+                                public void onSuccess(JSONArray response) {
+                                    System.out.println(response);
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    System.out.println(error);
+                                }
+                            });
+                        } catch (JSONException e) {
+                            Toast.makeText(SendReport.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        System.out.println(error);
+                    }
+                });
             }
         });
     }
 
-    private void fillLV() {
+    private void getCurLocation(JSONOCallback callback) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
+                Location location = task.getResult();
+                if (location != null) {
+                    JSONObject coords = new JSONObject();
+                    try {
+                        coords.put("lat", location.getLatitude());
+                        coords.put("lon", location.getLongitude());
+                        callback.onSuccess(coords);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+    }
+
+    private void fill_spinner() {
         WeatherDAO weatherDAO = new WeatherDAO(SendReport.this);
-        weatherDAO.getAllWeather(new VolleyResponseCallback() {
+        weatherDAO.getAllWeather(new JSONArrayCallback() {
             @Override
             public void onSuccess(JSONArray response) {
                 List<Weather> weatherList = weatherDAO.JSONArrayToWeatherList(response);
-                ArrayAdapter<Weather> adapter = new ArrayAdapter<Weather>(SendReport.this, android.R.layout.simple_list_item_1, weatherList);
-                cityList.setAdapter(adapter);
+                ArrayAdapter<Weather> adapter = new ArrayAdapter<Weather>(SendReport.this, android.R.layout.simple_spinner_item, weatherList);
+                weather.setAdapter(adapter);
             }
 
             @Override
-            public void onError(VolleyError error) {
-
+            public void onError(String error) {
+                System.out.println(error);
             }
         });
     }

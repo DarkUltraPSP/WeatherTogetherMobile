@@ -16,17 +16,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:text="Effectuer un signalement"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/et_dataInput"
             android:layout_width="match_parent"
-            android:layout_height="69dp"
+            android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="City"
-            android:inputType="textPersonName"
-            android:textAlignment="textStart" />
+            android:hint="Temperature"
+            android:inputType="number" />
+
+        <Spinner
+            android:id="@+id/sp_weather"
+            android:layout_width="match_parent"
+            android:layout_height="42dp" />
 
         <Button
-            android:id="@+id/searchBtn"
+            android:id="@+id/sendBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Search"

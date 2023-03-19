@@ -1,4 +1,4 @@
-package app.hesias.weathertogether.utils.DAO;
+package app.hesias.weathertogether.DAO;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import app.hesias.weathertogether.Model.Weather;
 import app.hesias.weathertogether.utils.MySingleton;
-import app.hesias.weathertogether.utils.VolleyResponseCallback;
+import app.hesias.weathertogether.utils.JSONArrayCallback;
 
 public class WeatherDAO {
 
@@ -29,7 +29,7 @@ public class WeatherDAO {
 
     String url = "http://192.168.1.44:8080/weather";
 
-    public void getAllWeather(VolleyResponseCallback callback) {
+    public void getAllWeather(JSONArrayCallback callback) {
         List<Weather> weatherList = new ArrayList<>();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
