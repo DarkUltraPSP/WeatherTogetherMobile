@@ -9,15 +9,15 @@ public class Report {
     private double longitude;
     private double temperature;
     private Weather weather;
-    private Utilisateur utilisateur;
+    private String username;
 
-    public Report(LocalDateTime dateReport, double latitude, double longitude, double temperature, Weather weather, Utilisateur utilisateur) {
+    public Report(LocalDateTime dateReport, double latitude, double longitude, double temperature, Weather weather, String username) {
         this.dateReport = dateReport;
         this.latitude = latitude;
         this.longitude = longitude;
         this.temperature = temperature;
         this.weather = weather;
-        this.utilisateur = utilisateur;
+        this.username = username;
     }
 
     public int getId() {
@@ -68,11 +68,11 @@ public class Report {
         this.weather = weather;
     }
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

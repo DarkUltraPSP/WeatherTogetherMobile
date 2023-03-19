@@ -12,11 +12,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -30,7 +28,6 @@ import java.util.List;
 import app.hesias.weathertogether.DAO.ReportDAO;
 import app.hesias.weathertogether.DAO.WeatherDAO;
 import app.hesias.weathertogether.Model.Report;
-import app.hesias.weathertogether.Model.Utilisateur;
 import app.hesias.weathertogether.Model.Weather;
 import app.hesias.weathertogether.R;
 import app.hesias.weathertogether.utils.JSONArrayCallback;
@@ -40,8 +37,7 @@ import app.hesias.weathertogether.utils.JSONOCallback;
 public class SendReport extends AppCompatActivity {
     FusedLocationProviderClient fusedLocationProviderClient;
     Button sendBtn;
-    EditText temperature;
-    ListView cityList;
+    EditText temperature, username;
     Spinner weather;
 
     @Override
@@ -50,9 +46,9 @@ public class SendReport extends AppCompatActivity {
         setContentView(R.layout.activity_send_report);
 
         sendBtn = findViewById(R.id.sendBtn);
-        temperature = findViewById(R.id.et_dataInput);
-        cityList = findViewById(R.id.lv_view);
+        temperature = findViewById(R.id.et_temp);
         weather = findViewById(R.id.sp_weather);
+        username = findViewById(R.id.et_username);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -72,7 +68,8 @@ public class SendReport extends AppCompatActivity {
                                     jsono.getDouble("lon"),
                                     Double.parseDouble(temperature.getText().toString()),
                                     (Weather) weather.getSelectedItem(),
-                                    new Utilisateur(1, "Nero", 0102030405)
+                                    username.getText().toString()
+
                             );
                             reportDAO.postReport(report, new JSONArrayCallback() {
                                 @Override

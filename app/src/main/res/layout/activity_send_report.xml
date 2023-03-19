@@ -20,15 +20,16 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="68dp"
+            android:gravity="clip_horizontal|center_vertical"
             android:text="Effectuer un signalement"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/et_dataInput"
+            android:id="@+id/et_temp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:ems="10"
             android:hint="Temperature"
             android:inputType="number" />
@@ -36,19 +37,21 @@
         <Spinner
             android:id="@+id/sp_weather"
             android:layout_width="match_parent"
-            android:layout_height="42dp" />
+            android:layout_height="50dp" />
+
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Nom d'Utilisateur"
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/sendBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search"
-            tools:text="Search" />
-
-        <ListView
-            android:id="@+id/lv_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:text="Envoyer" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -112,15 +112,12 @@ public class ReportDAO {
             JSONObject weather = new JSONObject();
             weather.put("id", report.getWeather().getId());
 
-            JSONObject user = new JSONObject();
-            user.put("id", report.getUtilisateur().getId());
-
             json.put("date", report.getDateReport());
             json.put("latitude", report.getLatitude());
             json.put("longitude", report.getLongitude());
             json.put("temperature", report.getTemperature());
             json.put("weather", weather);
-            json.put("utilisateur", user);
+            json.put("username", report.getUsername());
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
