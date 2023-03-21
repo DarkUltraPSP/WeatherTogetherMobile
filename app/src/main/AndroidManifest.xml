@@ -22,10 +22,10 @@
         android:foregroundServiceType="location"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.SendReport"
             android:exported="false" />
         <activity
-            android:name=".Activities.SendReport"
+            android:name=".Activities.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
