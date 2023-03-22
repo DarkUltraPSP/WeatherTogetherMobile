@@ -2,6 +2,8 @@ package app.hesias.weathertogether.Activities;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -10,6 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 import app.hesias.weathertogether.DAO.ReportDAO;
 import app.hesias.weathertogether.R;
 import app.hesias.weathertogether.databinding.ActivityMapsBinding;
+import app.hesias.weathertogether.utils.Functions;
 import app.hesias.weathertogether.utils.JSONArrayCallback;
 import app.hesias.weathertogether.utils.JSONOCallback;
 import app.hesias.weathertogether.utils.Location;
@@ -64,8 +68,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onSuccess (JSONObject jsono) {
                 try {
                     LatLng curLocation = new LatLng(jsono.getDouble("lat"), jsono.getDouble("lon"));
-                    mMap.addMarker(new MarkerOptions().position(curLocation).title("Current Location"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLocation, 15));
+                    System.out.println(jsono);
+                    MarkerOptions marker = new MarkerOptions().position(curLocation).title("Position actuelle");
+                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.bluedot));
+                    mMap.addMarker(marker);
+
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(curLocation, 13));
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -89,9 +97,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for (int i = 0; i < response.length(); i++)
                     try {
                         JSONObject report = response.getJSONObject(i);
-                        System.out.println(report);
                         LatLng location = new LatLng(report.getDouble("latitude"), report.getDouble("longitude"));
-                        mMap.addMarker(new MarkerOptions().position(location).title(report.getString("temperature")));
+
+                        MarkerOptions marker = new MarkerOptions().position(location).title("Temperature : *" + report.getString("temperature") + "°C");
+                        marker.icon(Functions.imgforWeather(MapsActivity.this,report.getJSONObject("weather").getInt("id")));
+
+                        mMap.addMarker(marker);
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }

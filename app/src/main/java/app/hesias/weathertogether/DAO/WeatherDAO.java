@@ -28,7 +28,7 @@ public class WeatherDAO {
         this.context = context;
     }
 
-    String url = "http://172.20.63.12:8080/weather";
+    String url = "http://192.168.1.44:8080/weather";
 
     public void getAllWeather(JSONArrayCallback callback) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
