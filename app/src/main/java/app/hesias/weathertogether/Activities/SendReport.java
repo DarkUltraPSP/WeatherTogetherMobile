@@ -57,7 +57,7 @@ public class SendReport extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getCurLocation(new JSONOCallback() {
+                app.hesias.weathertogether.utils.Location.getCurLocation(new JSONOCallback() {
                     final ReportDAO reportDAO = new ReportDAO(SendReport.this);
                     @Override
                     public void onSuccess(JSONObject jsono) {
@@ -69,12 +69,12 @@ public class SendReport extends AppCompatActivity {
                                     Double.parseDouble(temperature.getText().toString()),
                                     (Weather) weather.getSelectedItem(),
                                     username.getText().toString()
-
                             );
                             reportDAO.postReport(report, new JSONArrayCallback() {
                                 @Override
                                 public void onSuccess(JSONArray response) {
                                     System.out.println(response);
+                                    finish();
                                 }
 
                                 @Override
@@ -92,31 +92,9 @@ public class SendReport extends AppCompatActivity {
                     public void onError(String error) {
                         System.out.println(error);
                     }
-                });
+                }, SendReport.this);
             }
         });
-    }
-
-    private void getCurLocation(JSONOCallback callback) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
-                Location location = task.getResult();
-                if (location != null) {
-                    JSONObject coords = new JSONObject();
-                    try {
-                        coords.put("lat", location.getLatitude());
-                        coords.put("lon", location.getLongitude());
-                        callback.onSuccess(coords);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
     }
 
     private void fill_spinner() {

@@ -17,18 +17,27 @@ import app.hesias.weathertogether.utils.JSONArrayCallback;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_gotoSendReport;
+    Button btn_gotoSendReport, btn_goToMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         btn_gotoSendReport = findViewById(R.id.btn_gotoSendReport);
+        btn_goToMap = findViewById(R.id.btn_goToMap);
 
         btn_gotoSendReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SendReport.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_goToMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
                 startActivity(intent);
             }
         });
