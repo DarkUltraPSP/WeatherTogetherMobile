@@ -106,7 +106,6 @@ public class ReportDAO {
         try {
             JSONObject weather = new JSONObject();
             weather.put("id", report.getWeather().getId());
-            json.put("date", report.getDateReport());
             json.put("latitude", report.getLatitude());
             json.put("longitude", report.getLongitude());
             json.put("temperature", report.getTemperature());

@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -99,10 +100,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         JSONObject report = response.getJSONObject(i);
                         LatLng location = new LatLng(report.getDouble("latitude"), report.getDouble("longitude"));
 
-                        MarkerOptions marker = new MarkerOptions().position(location).title("Temperature : *" + report.getString("temperature") + "°C");
-                        marker.icon(Functions.imgforWeather(MapsActivity.this,report.getJSONObject("weather").getInt("id")));
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(location).title("Temperature : " + report.getString("temperature") + "°C"));
 
-                        mMap.addMarker(marker);
+                        if (marker != null) {
+                            marker.setIcon(Functions.imgforWeather(MapsActivity.this,report.getJSONObject("weather").getInt("id")));
+                        }
+
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
