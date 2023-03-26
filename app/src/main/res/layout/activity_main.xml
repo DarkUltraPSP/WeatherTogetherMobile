@@ -33,11 +33,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Voir la carte" />
+
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="461dp" />
+            android:layout_height="403dp" />
 
         <Button
             android:id="@+id/btn_refresh"

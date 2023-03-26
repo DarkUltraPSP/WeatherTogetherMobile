@@ -103,7 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Marker marker = mMap.addMarker(new MarkerOptions().position(location).title("Temperature : " + report.getString("temperature") + "°C"));
 
                         if (marker != null) {
-                            marker.setIcon(Functions.imgforWeather(MapsActivity.this,report.getJSONObject("weather").getInt("id")));
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(Functions.imgforWeather(report.getJSONObject("weather").getInt("id"))));
                         }
 
                     } catch (JSONException e) {

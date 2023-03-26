@@ -20,10 +20,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import app.hesias.weathertogether.Model.Report;
+import app.hesias.weathertogether.Model.Weather;
 import app.hesias.weathertogether.utils.JSONArrayCallback;
 
 public class ReportDAO {
@@ -34,13 +36,11 @@ public class ReportDAO {
         this.context = context;
     }
 
-    final String url = "http://172.20.63.12:8080/report";
+    final String url = "http://192.168.1.44:8080/report";
 
 
     public void getAllReports(JSONArrayCallback callback) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-
-        List<Report> reportList = new ArrayList<>();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -106,6 +106,7 @@ public class ReportDAO {
         try {
             JSONObject weather = new JSONObject();
             weather.put("id", report.getWeather().getId());
+
             json.put("latitude", report.getLatitude());
             json.put("longitude", report.getLongitude());
             json.put("temperature", report.getTemperature());
@@ -116,5 +117,37 @@ public class ReportDAO {
         }
         System.out.println(json);
         return json;
+    }
+
+    public Report JSONObjectToReport(JSONObject response) {
+        Report report = null;
+        WeatherDAO wDao = new WeatherDAO(context);
+        try {
+            report = new Report(
+                    LocalDateTime.parse(response.getString("dateReport")),
+                    response.getDouble("latitude"),
+                    response.getDouble("longitude"),
+                    response.getDouble("temperature"),
+                    wDao.JSONObjectToWeather(response.getJSONObject("weather")),
+                    response.getString("username")
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return report;
+    }
+
+    public List<Report> JSONArrayToReportList(JSONArray response) {
+        List<Report> reportList = new ArrayList<>();
+        try {
+            for(int i = 0; i < response.length(); i++) {
+                JSONObject reportJSON = response.getJSONObject(i);
+                Report report =JSONObjectToReport(reportJSON);
+                reportList.add(report);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return reportList;
     }
 }

@@ -10,32 +10,32 @@ import org.json.JSONObject;
 import app.hesias.weathertogether.R;
 
 public class Functions {
-    public static BitmapDescriptor imgforWeather(Context context, int idWeather) {
-        BitmapDescriptor img = null;
+    public static int imgforWeather(int idWeather) {
+        int img = 0;
         switch (idWeather) {
             case 1:
-                img = BitmapDescriptorFactory.fromResource(R.drawable.sunny);
+                img = R.drawable.sunny;
                 break;
             case 2:
-                img = BitmapDescriptorFactory.fromResource(R.drawable.cloudy_with_sun);
+                img = R.drawable.cloudy_with_sun;
                 break;
             case 3:
-                img = BitmapDescriptorFactory.fromResource(R.drawable.sun_rain);
+                img = R.drawable.sun_rain;
                 break;
             case 4:
-                img = BitmapDescriptorFactory.fromResource(R.drawable.cloudy);
+                img = R.drawable.cloudy;
                 break;
             case 5:
-                img = BitmapDescriptorFactory.fromResource(R.drawable.fog);
+                img = R.drawable.fog;
                 break;
             case 6:
-                img = BitmapDescriptorFactory.fromResource(R.drawable.light_rain);
+                img = R.drawable.light_rain;
                 break;
             case 7:
-                img = BitmapDescriptorFactory.fromResource(R.drawable.heavy_rain);
+                img = R.drawable.heavy_rain;
                 break;
             case 8:
-                img = BitmapDescriptorFactory.fromResource(R.drawable.snow);
+                img = R.drawable.snow;
                 break;
         }
         return img;

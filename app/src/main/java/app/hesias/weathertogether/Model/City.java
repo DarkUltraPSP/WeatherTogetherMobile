@@ -1,23 +1,11 @@
 package app.hesias.weathertogether.Model;
 
 public class City {
-private String name;
     private int code;
-    private double lat;
-    private double lon;
+    private String name;
 
-    public City(String name, int code, double lat, double lon) {
-        this.name = name;
+    public City(int code, String name) {
         this.code = code;
-        this.lat = lat;
-        this.lon = lon;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 
@@ -29,19 +17,11 @@ private String name;
         this.code = code;
     }
 
-    public double getLat() {
-        return lat;
+    public String getName() {
+        return name;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLon() {
-        return lon;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
+    public void setName(String name) {
+        this.name = name;
     }
 }
