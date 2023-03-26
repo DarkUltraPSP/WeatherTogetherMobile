@@ -47,6 +47,10 @@
             android:hint="Nom d'Utilisateur"
             android:inputType="textPersonName" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
         <Button
             android:id="@+id/sendBtn"
             android:layout_width="match_parent"

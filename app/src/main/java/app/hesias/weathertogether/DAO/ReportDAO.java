@@ -34,7 +34,7 @@ public class ReportDAO {
         this.context = context;
     }
 
-    final String url = "http://192.168.1.44:8080/report";
+    final String url = "http://172.20.63.12:8080/report";
 
 
     public void getAllReports(JSONArrayCallback callback) {
