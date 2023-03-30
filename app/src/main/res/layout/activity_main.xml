@@ -25,26 +25,46 @@
                 android:id="@+id/btn_gotoSendReport"
                 android:layout_width="204dp"
                 android:layout_height="match_parent"
-                android:text="Effectuer un signalement " />
+                android:layout_margin="5dp"
+                android:text="@string/effectuer_un_signalement" />
 
             <Button
                 android:id="@+id/btn_goToMap"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_margin="5dp"
                 android:text="Voir la carte" />
 
         </LinearLayout>
 
+        <Spinner
+            android:id="@+id/sp_filter"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:contentDescription="@string/select_an_item_from_the_list"/>
+
+        <TextView
+            android:id="@+id/tv_radius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/rayon"
+            android:textAlignment="center"
+            android:visibility="gone" />
+
+        <SeekBar
+            android:id="@+id/sb_radius"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:progress="10"
+            android:max="100"
+            android:visibility="gone" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="403dp" />
+            android:layout_height="match_parent" />
 
-        <Button
-            android:id="@+id/btn_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Rafraichir" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

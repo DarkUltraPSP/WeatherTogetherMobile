@@ -2,8 +2,6 @@ package app.hesias.weathertogether.Activities;
 
 import androidx.fragment.app.FragmentActivity;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -92,7 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void displayReports (){
         ReportDAO reportDAO = new ReportDAO(this);
-        reportDAO.getAllReports(new JSONArrayCallback() {
+        reportDAO.getLatestReports(new JSONArrayCallback() {
             @Override
             public void onSuccess (JSONArray response) {
                 for (int i = 0; i < response.length(); i++)

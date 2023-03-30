@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.hesias.weathertogether.Model.Report;
-import app.hesias.weathertogether.Model.Weather;
 import app.hesias.weathertogether.utils.JSONArrayCallback;
 
 public class ReportDAO {
@@ -39,7 +38,7 @@ public class ReportDAO {
     final String url = "http://192.168.1.44:8080/report";
 
 
-    public void getAllReports(JSONArrayCallback callback) {
+    public void getLatestReports(JSONArrayCallback callback) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -57,6 +56,26 @@ public class ReportDAO {
 
         requestQueue.add(request);
     }
+
+    public void getReportOrderByTemp(JSONArrayCallback callback) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + "/temp", null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
+                Toast.makeText(context, "Error" + error, Toast.LENGTH_LONG).show();
+            }
+        }
+        );
+
+        requestQueue.add(request);
+    }
+
 
     public void postReport(Report report, JSONArrayCallback callback) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -115,7 +134,6 @@ public class ReportDAO {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(json);
         return json;
     }
 
@@ -140,9 +158,9 @@ public class ReportDAO {
     public List<Report> JSONArrayToReportList(JSONArray response) {
         List<Report> reportList = new ArrayList<>();
         try {
-            for(int i = 0; i < response.length(); i++) {
+            for (int i = 0; i < response.length(); i++) {
                 JSONObject reportJSON = response.getJSONObject(i);
-                Report report =JSONObjectToReport(reportJSON);
+                Report report = JSONObjectToReport(reportJSON);
                 reportList.add(report);
             }
         } catch (Exception e) {
