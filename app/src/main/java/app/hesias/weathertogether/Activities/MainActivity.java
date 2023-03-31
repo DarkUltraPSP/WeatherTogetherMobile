@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ import app.hesias.weathertogether.DAO.ReportDAO;
 import app.hesias.weathertogether.Model.Report;
 import app.hesias.weathertogether.R;
 import app.hesias.weathertogether.utils.JSONArrayCallback;
+import app.hesias.weathertogether.utils.JSONOCallback;
+import app.hesias.weathertogether.utils.Location;
 import app.hesias.weathertogether.utils.RecyclerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,6 +88,50 @@ public class MainActivity extends AppCompatActivity {
                     case 4:
                         tv_radius.setVisibility(View.VISIBLE);
                         sb_radius.setVisibility(View.VISIBLE);
+                        tv_radius.setText("Rayon : " + sb_radius.getProgress() + "km");
+                        sb_radius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                                tv_radius.setText("Rayon : " + i + "km");
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar) {
+                                ReportDAO reports = new ReportDAO(MainActivity.this);
+                                app.hesias.weathertogether.utils.Location.getCurLocation(new JSONOCallback() {
+                                    @Override
+                                    public void onSuccess(JSONObject jsono) {
+                                        try {
+                                            reports.getReportsRadius(jsono.getDouble("lat"), jsono.getDouble("lon"), sb_radius.getProgress(), MainActivity.this, new JSONArrayCallback() {
+                                                @Override
+                                                public void onSuccess(JSONArray response) {
+                                                    List<Report> listReport = reports.JSONArrayToReportList(response);
+                                                    recyclerView.setAdapter(new RecyclerAdapter(MainActivity.this, listReport));
+                                                }
+
+                                                @Override
+                                                public void onError(String error) {
+
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+
+                                    }
+                                }, MainActivity.this);
+
+                            }
+                        });
                         break;
                     default:
                         tv_radius.setVisibility(View.GONE);

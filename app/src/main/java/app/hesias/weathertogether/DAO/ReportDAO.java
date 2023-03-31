@@ -1,6 +1,7 @@
 package app.hesias.weathertogether.DAO;
 
 import android.content.Context;
+import android.net.Uri;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import app.hesias.weathertogether.Model.Report;
 import app.hesias.weathertogether.utils.JSONArrayCallback;
+import app.hesias.weathertogether.utils.JSONOCallback;
 
 public class ReportDAO {
 
@@ -35,12 +37,12 @@ public class ReportDAO {
         this.context = context;
     }
 
-    final String url = "http://192.168.1.44:8080/report";
+    final String baseUrl = "http://192.168.1.44:8080/report";
 
 
     public void getLatestReports(JSONArrayCallback callback) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, baseUrl, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 callback.onSuccess(response);
@@ -59,7 +61,7 @@ public class ReportDAO {
 
     public void getReportOrderByTemp(JSONArrayCallback callback) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + "/temp", null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, baseUrl + "/temp", null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 callback.onSuccess(response);
@@ -76,12 +78,30 @@ public class ReportDAO {
         requestQueue.add(request);
     }
 
+    public void getReportsRadius(double lat, double lon, int radius, Context context, JSONArrayCallback callback) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        String url = baseUrl + "/radius/" + lat + "/" + lon + "/" + radius;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Error" + error, Toast.LENGTH_LONG).show();
+            }
+        }
+        );
+
+        requestQueue.add(request);
+    }
 
     public void postReport(Report report, JSONArrayCallback callback) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JSONObject json = reportToJSONObject(report);
         String requestBody = json.toString();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, baseUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(context, response, Toast.LENGTH_SHORT).show();

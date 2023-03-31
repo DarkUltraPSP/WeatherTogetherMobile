@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import app.hesias.weathertogether.DAO.CityDAO;
@@ -52,8 +53,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerHolder> {
             }
         });
 
-        holder.temp.setText(Double.toString(reports.get(position).getTemperature()));
+        holder.temp.setText(reports.get(position).getTemperature() + "°C");
         holder.image.setImageResource(Functions.imgforWeather(reports.get(position).getWeather().getId()));
+        holder.user.setText(reports.get(position).getUsername());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String formattedString = reports.get(position).getDateReport().format(formatter);
+        holder.date.setText(formattedString);
     }
 
     @Override
