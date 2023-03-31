@@ -11,12 +11,14 @@ import app.hesias.weathertogether.R;
 
 public class RecyclerHolder extends RecyclerView.ViewHolder {
     ImageView image;
-    TextView city,temp;
+    TextView city,temp, user, date;
 
     public RecyclerHolder(@NonNull View itemView) {
         super(itemView);
         image = itemView.findViewById(R.id.imgView);
         city = itemView.findViewById(R.id.city);
         temp = itemView.findViewById(R.id.temp);
+        user = itemView.findViewById(R.id.tv_user);
+        date = itemView.findViewById(R.id.tv_date);
     }
 }
