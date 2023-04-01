@@ -28,12 +28,12 @@ public class WeatherDAO {
         this.context = context;
     }
 
-    String url = "http://192.168.1.44:8080/weather";
+    String baseUrl = "http://192.168.1.44:8080/weather";
 
     public void getAllWeather(JSONArrayCallback callback) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         List<Weather> weatherList = new ArrayList<>();
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, baseUrl, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 callback.onSuccess(response);

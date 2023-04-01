@@ -1,0 +1,1 @@
+* Modifier la variable baseURL dans les fichiers ReportDAO (l.40) et WeatherDAO (l.31)
